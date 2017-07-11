@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, current_app
+from flask import Blueprint, render_template, request, current_app, send_file
 import simplejson
 from app.models import Image
+import os
 
 
 bp = Blueprint('gallery', __name__)    # , static_folder='static' , template_folder='templates'
@@ -9,12 +10,16 @@ bp = Blueprint('gallery', __name__)    # , static_folder='static' , template_fol
 @bp.route('/', methods=['GET', 'POST', ])
 def index():
     images = Image.all(current_app.config['GALLERY_ROOT_DIR'])
-    print('gallery.index')
     return render_template(
         'index.html',
         title='Gallery',
         images=images
     )
+
+
+@bp.route('/image/<filename>', methods=['GET', ])
+def image(filename=''):
+    return send_file(os.path.join(current_app.config['GALLERY_ROOT_DIR'], filename))
 
 
 @bp.route('/json')

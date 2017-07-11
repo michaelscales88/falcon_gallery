@@ -2,6 +2,7 @@ from flask import Flask, Blueprint
 from flask_restful import Api
 from flask_login import LoginManager
 
+
 # store private information in instance
 app = Flask(__name__, instance_relative_config=True, template_folder='templates')
 
