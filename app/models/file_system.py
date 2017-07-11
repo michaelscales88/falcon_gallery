@@ -36,15 +36,35 @@ class FilesystemObject(object):
         try:
             stats = os.stat(self.abspath)
         except IOError as e:
-            raise FilesystemObjectDoesNotExist(e.message)
+            raise FilesystemObjectDoesNotExist(e)
 
         self.timestamp = stats.st_mtime
 
     def upload(self, post):
         """Get a POST file and save it to the settings.GALLERY_ROOT_DIR"""
-        # TODO: handle filename conflicts
         # http://flask.pocoo.org/docs/patterns/fileuploads/
-        post.save(os.path.join(self.root_dir, self.filename))
+        file_name = os.path.join(self.root_dir, self.filename)
+
+        # Handle name conflicts
+        if os.path.isfile(file_name):
+            file, ext = os.path.splitext(self.filename)
+            counter = 1
+
+            # Test filename collision in gallery directory not uploads
+            while os.path.isfile(
+                    os.path.join(
+                        self.root_dir,
+                        '{0}({1}){2}'.format(file, counter, ext)
+                    )
+            ):
+                counter += 1
+
+            file_name = os.path.join(
+                current_app.config['UPLOAD_DIR'],
+                '{0}({1}){2}'.format(file, counter, ext)
+            )  # Save to the upload directory
+
+        post.save(file_name)
 
     @classmethod
     def all(cls, root):

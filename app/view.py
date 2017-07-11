@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 from app import app, lm, si
 from app.models import User
-from app.core import get_redirect_target, redirect_back
+from app.core import get_redirect_target, redirect_back, transfer_uploads
 from app.forms import SearchForm, LoginForm
 from app.database import db_session
 
@@ -28,6 +28,7 @@ def before_request():
 
 @app.teardown_request
 def teardown(error):
+    transfer_uploads()  # This EOL for my file object "session"
     print('teardown')
 
 
@@ -89,7 +90,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect_back('index.index')
+    return redirect_back('.index')
 
 
 @lm.user_loader

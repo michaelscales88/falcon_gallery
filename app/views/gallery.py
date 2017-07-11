@@ -22,7 +22,7 @@ def json():
     """Return a JSON containing an array of URL pointing to
     the images.
     """
-    images = Image.all(current_app.config['GALLERY_ROOT_DIR'], current_app.config['ALLOWED_EXTENSIONS'])
+    images = Image.all(current_app.config['GALLERY_ROOT_DIR'])
     start = 0
     stop = len(images)
 

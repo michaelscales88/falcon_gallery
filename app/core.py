@@ -1,5 +1,7 @@
-from flask import request, url_for, abort, redirect
+import os
+from flask import request, url_for, abort, redirect, current_app
 from urllib.parse import urlparse, urljoin
+from shutil import move
 
 
 def get_redirect_target():
@@ -26,3 +28,12 @@ def is_safe_url(target):
         test_url.scheme in ('http', 'https')
         and ref_url.netloc == test_url.netloc
     )
+
+
+def transfer_uploads():
+    uploads = os.listdir(current_app.config['UPLOAD_DIR'])
+    for upload in uploads:
+        move(
+            os.path.join(current_app.config['UPLOAD_DIR'], upload),  # SRC
+            current_app.config['GALLERY_ROOT_DIR']  # DESTINATION
+        )

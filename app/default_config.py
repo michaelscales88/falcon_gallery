@@ -6,9 +6,11 @@ class Config(object):
     SECRET_KEY = urandom(24)     # Generate a random session key
 
     BASEDIR = path.abspath(path.dirname(__file__))
-    PACKAGE_NAME = path.basename(path.dirname(BASEDIR))
-    GALLERY_ROOT_DIR = path.join(BASEDIR, 'static', 'gallery')
-    UPLOAD_DIR = path.join(BASEDIR, 'static', 'uploads')
+    PACKAGEDIR = path.dirname(BASEDIR)
+    PACKAGE_NAME = path.basename(PACKAGEDIR)
+
+    GALLERY_ROOT_DIR = path.join(PACKAGEDIR, 'instance', 'gallery')
+    UPLOAD_DIR = path.join(PACKAGEDIR, 'instance', 'uploads')
     ALLOWED_EXTENSIONS = (
         'jpg',
         'jpeg',
@@ -20,9 +22,6 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + path.join(BASEDIR, 'app.db')
     SQLALCHEMY_MIGRATE_REPO = path.join(BASEDIR, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Turn this off to reduce overhead
-
-    # pagination
-    POSTS_PER_PAGE = 50
 
     # indexing service
     WHOOSH_BASE = path.join(BASEDIR, 'tmp/whoosh')

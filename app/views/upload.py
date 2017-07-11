@@ -11,9 +11,7 @@ bp = Blueprint('upload', __name__)  # , template_folder='templates'
 @login_required
 def index():
     next = get_redirect_target()
-
     if request.method == 'POST' and 'image' in request.files:
-        print('inside image')
         image = request.files['image']
         img = Image('', post=image, root=current_app.config['GALLERY_ROOT_DIR'])
         flash('Added image', img.filename)
