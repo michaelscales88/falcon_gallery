@@ -1,8 +1,10 @@
 from sqlalchemy import Column, Text, DateTime, Integer
 from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy_utils import generic_repr
 from app.database import Base
 
 
+@generic_repr
 class User(Base):
     __searchable__ = ['nickname']
 

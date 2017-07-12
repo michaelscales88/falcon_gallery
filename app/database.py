@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
-
 from app import app
 
 
@@ -17,8 +16,11 @@ Base.query = db_session.query_property()
 def init_db():
     # Import models to include in the Base
     from app.models import User
+    from app.models import Image
     Base.metadata.create_all(bind=engine)
 
 
 def rebase():
+    from app.models import User
+    from app.models import Image
     Base.metadata.create_all(bind=engine)

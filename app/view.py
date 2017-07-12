@@ -6,7 +6,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app import app, lm, si
 from app.models import User
 from app.core import get_redirect_target, redirect_back, transfer_uploads
-from app.forms import SearchForm, LoginForm
+from app.forms import LoginForm
 from app.database import db_session
 
 
@@ -14,16 +14,16 @@ from app.database import db_session
 def before_request():
     print('setup')
     g.user = current_user
+    g.session = db_session
     g.search_enabled = current_app.config['ENABLE_SEARCH']
     if g.user.is_authenticated:
         g.user.last_seen = datetime.utcnow()
         db_session.add(g.user)
         db_session.commit()
-        g.session = db_session
         g.report_date = datetime.today().date()
     if g.search_enabled:
         si.register_class(User)  # update whoosh with User information
-        g.search_form = SearchForm()
+        # g.search_form = SearchForm()
 
 
 @app.teardown_request
@@ -34,6 +34,7 @@ def teardown(error):
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
+    print('closing session', db_session)
     db_session.remove()     # Be certain than the session closes
 
 
@@ -59,7 +60,7 @@ def login():
     if request.method == 'POST':
 
         if g.user is not None and g.user.is_authenticated:
-            return redirect(url_for('index.index'))
+            return redirect(url_for('gallery.index'))
 
         if form.validate_on_submit():
             user_email = str(form.login.data)
@@ -79,18 +80,24 @@ def login():
             # login_user(user, remember=remember_me)
             login_user(user)
             flash('Logged in successfully.')
-            return redirect_back('index.index')
+            return redirect_back('gallery.index')
     return render_template('login.html',
                            title='Sign In',
                            next=next,
                            form=form)
 
 
+@app.route("/settings")
+@login_required
+def settings():
+    pass
+
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect_back('.index')
+    return redirect(url_for('gallery.index'))
 
 
 @lm.user_loader

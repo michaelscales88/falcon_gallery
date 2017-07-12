@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, request, current_app, send_file
+from flask import Blueprint, render_template, request, current_app, send_file, g
+from sqlalchemy.sql import expression
 import simplejson
 from app.models import Image
+from app.models.image import Image as ImageModel
 import os
 
 
@@ -10,10 +12,13 @@ bp = Blueprint('gallery', __name__)    # , static_folder='static' , template_fol
 @bp.route('/', methods=['GET', 'POST', ])
 def index():
     images = Image.all(current_app.config['GALLERY_ROOT_DIR'])
+    image_list = [f.filename for f in images]
+    image_data = g.session.query(ImageModel).filter(ImageModel.file_name.in_(image_list)).all()   # Query ImageModel table
     return render_template(
         'index.html',
         title='Gallery',
-        images=images
+        images=images,
+        image_data=image_data
     )
 
 

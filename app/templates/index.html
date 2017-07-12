@@ -2,20 +2,22 @@
 
 {% block content %}
     <body>
-    <style>
-        .item {
-            float:left;
-            width:500px;
-            margin:10px;
-        }
-    </style>
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery.masonry.min.js') }}"></script>
-    <ul id="container">
-        {% for image in images %}
-            <img class="item" src="{{ url_for('gallery.image', filename=image.filename) }}" alt="{{ image.filename }}"/>
-
-        {% endfor %}
-    </ul>
+    <div >
+        <table style="width:100%;" cellpadding="10 px">
+            {% for image in images %}
+                <figure>
+                    <img class="img-responsive" src="{{ url_for('gallery.image', filename=image.filename) }}" alt="{{ image.filename }}"/>
+                    <figcaption>
+                        {% if image_data[loop.index0] %}
+                            <p>Title: {{ image_data[loop.index0].name|e|safe }}</p>
+                        {% else %}
+                            <p>Title: {{ image.filename|e }}</p>
+                        {% endif %}
+                        <p>Author: Vallejo</p>
+                    </figcaption>
+                </figure>
+            {% endfor %}
+        </table>
+    </div>
     </body>
 {% endblock %}

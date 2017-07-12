@@ -4,7 +4,7 @@ from flask_login import LoginManager
 
 
 # store private information in instance
-app = Flask(__name__, instance_relative_config=True, template_folder='templates')
+app = Flask(__name__, instance_relative_config=True, template_folder='templates', static_folder='static')
 
 # Load default settings
 app.config.from_object('app.default_config.DevelopmentConfig')

@@ -2,11 +2,39 @@
 <html lang="en">
 
 <head>
+    <script type="text/javascript">
+        // page to go to if cookie does not exist
+        go_to_splash = "{{ url_for('static', filename='favicon.ico') }}";
+
+        // number of days cookie lives for - in this case, 60 days
+        num_days = 60;
+        function ged(noDays){
+            var today = new Date();
+            var expr = new Date(today.getTime() + noDays*24*60*60*1000);
+            return  expr.toGMTString();
+        }
+        function readCookie(cookieName){
+            var start = document.cookie.indexOf(cookieName);
+            if (start == -1){
+                // a cookie will be added and the page redirects to splash.html
+                document.cookie = "seenit=yes; expires=" + ged(num_days);
+                window.location = go_to_splash;
+            } else {
+                // if a cookie still exists, there will be no redirect
+            }
+        }
+
+        readCookie("seenit");
+    </script>
     {% block head %}
-        <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="/static/js/bootstrap.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -22,16 +50,6 @@
 </head>
 
 <body>
-<div>Falcon Gallery:
-    <a href="{{ url_for('gallery.index') }}">Home</a>
-    <a href="{{ url_for('upload.index') }}">Upload</a>
-    {% if g.search_enabled %}| <form style="display: inline;" action="{{ url_for('search.index') }}" method="post" name="search">{{ g.search_form.hidden_tag() }}{{ g.search_form.search(size=20) }}<input type="submit" value="Search"></form>
-    {% endif %}
-    {% if g.user.is_authenticated %}
-        | <a href="{{ url_for('logout') }}">Logout</a>
-    {% endif %}
-
-</div>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         <ul>
@@ -44,3 +62,5 @@
 {% block content %}{% endblock %}
 </body>
 </html>
+
+<footer>{% include 'navigation.html' %}</footer>

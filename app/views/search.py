@@ -1,17 +1,15 @@
-from flask import render_template, g, Blueprint, url_for, redirect
-from flask_login import login_required
+from flask import render_template, g, Blueprint, url_for, redirect, request
 
 
 bp = Blueprint('search', __name__)
 
 
 @bp.route('/search', methods=['POST'])
-@login_required
 def index():
-    if not g.search_form.validate_on_submit():
-        print('search.index submitted')
-        return redirect(url_for('index.index'))
-    return redirect(url_for('search.search_results', query=g.search_form.search.data))
+    select = request.form.get('search')
+    if select:
+        return redirect(url_for('search.search_results', query=select))
+    return redirect(url_for('gallery.index'))
 
 
 @bp.route('/search_results/<query>')
