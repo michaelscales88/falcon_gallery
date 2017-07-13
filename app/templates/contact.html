@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST" action="{{ url_for('contact.index') }}">
+        <div class="input-group form-control">
+            <label for="author-select">Author:</label>
+            <select id="author-select" name="author">
+                {% for author in authors %}
+                    <option value="{{ author.nickname }}">{{ author.nickname }}</option>
+                {% endfor %}
+            </select>
+        <button class="btn btn-default" type="submit">Submit</button>
+        </div>
+    </form>
+
+{% endblock %}

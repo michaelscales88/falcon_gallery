@@ -2,12 +2,32 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="{{ url_for('favicon') }}" type="image/x-icon" />
+
+    <!-- Bootstrap -->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <script type="text/javascript">
         // page to go to if cookie does not exist
-        go_to_splash = "{{ url_for('static', filename='favicon.ico') }}";
+        go_to_splash = "{{ url_for('splash') }}";
 
-        // number of days cookie lives for - in this case, 60 days
-        num_days = 60;
+        // number of days cookie lives for - in this case ~3 weeks
+        num_days = 18;
         function ged(noDays){
             var today = new Date();
             var expr = new Date(today.getTime() + noDays*24*60*60*1000);
@@ -26,30 +46,21 @@
 
         readCookie("seenit");
     </script>
+
+    {% if title %}
+        <title>{{ title }} - Falcon Gallery</title>
+    {% else %}
+        <title>Falcon Gallery</title>
+    {% endif %}
+
     {% block head %}
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        {% if title %}
-            <title>{{ title }} - Falcon Gallery</title>
-        {% else %}
-            <title>Falcon Gallery</title>
-        {% endif %}
-
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     {% endblock %}
 </head>
 
 <body>
+<!-- Navigation bar for all base pages -->
+{% include 'navigation.html' %}
+
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         <ul>
@@ -59,8 +70,7 @@
         </ul>
     {% endif %}
 {% endwith %}
+
 {% block content %}{% endblock %}
 </body>
 </html>
-
-<footer>{% include 'navigation.html' %}</footer>

@@ -25,11 +25,12 @@ api = Api(app=app)
 api_bp = Blueprint('api', __name__)
 
 from . import view
-from app.views import gallery, search, upload
+from app.views import gallery, search, upload, contact
 
 app.register_blueprint(gallery.bp)
 app.register_blueprint(search.bp)
 app.register_blueprint(upload.bp)
+app.register_blueprint(contact.bp)
 
 
 # from .resources import GalleryView

@@ -87,6 +87,24 @@ def login():
                            form=form)
 
 
+@app.route('/splash', methods=['GET', 'POST'])
+def splash():
+    next = get_redirect_target()
+    clicked = request.form.get('clicked')
+    if clicked:
+        return redirect(next)
+    return render_template(
+        'splash.html',
+        title='Recent',
+        next=next
+    )
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return url_for('static', filename='favicon.ico')
+
+
 @app.route("/settings")
 @login_required
 def settings():

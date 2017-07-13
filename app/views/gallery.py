@@ -22,7 +22,14 @@ def index():
     )
 
 
-@bp.route('/image/<filename>', methods=['GET', ])
+@bp.route('/alternate', methods=['GET', 'POST'])
+def imageview(filename=''):
+    return render_template(
+        'index.html'
+    )
+
+
+@bp.route('/image/<filename>', methods=['GET'])
 def image(filename=''):
     return send_file(os.path.join(current_app.config['GALLERY_ROOT_DIR'], filename))
 
