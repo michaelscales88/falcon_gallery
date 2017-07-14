@@ -1,16 +1,16 @@
 <!-- Public contact information  -->
-<li class="btn btn-group dropup">
-    <button type="button" class="btn btn-secondary">
-        <a href="{{ url_for('contact.index') }}">Contact</a>
-    </button>
-    <button type="button" id="dropdownMenuButton" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<div class="navbar-link navbar-text dropup">
+    <a href="{{ url_for('contact.index') }}">Artist</a>
+
+    <button type="button" id="publicButtons" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
+        <span class="sr-only">Toggle Artist Page</span>
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+    <div class="dropdown-menu" aria-labelledby="publicButtons">
         <!-- Dropdown menu links -->
         <a class="dropdown-item btn" href="#">Merchandise</a>
         <a class="dropdown-item btn" href="#">Instagram</a>
         <a class="dropdown-item btn" href="#">Twitter</a>
     </div>
-</li>
+</div>

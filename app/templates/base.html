@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" href="{{ url_for('favicon') }}" type="image/x-icon" />
-
     <!-- Bootstrap -->
 
     <!-- Latest compiled and minified CSS -->
@@ -22,6 +20,9 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+
+    <!-- Handle cookie for splash page-->
     <script type="text/javascript">
         // page to go to if cookie does not exist
         go_to_splash = "{{ url_for('splash') }}";
@@ -47,12 +48,16 @@
         readCookie("seenit");
     </script>
 
+    <link rel="shortcut icon" href="{{ url_for('favicon') }}" type="image/x-icon" />
+
+
     {% if title %}
         <title>{{ title }} - Falcon Gallery</title>
     {% else %}
         <title>Falcon Gallery</title>
     {% endif %}
 
+    <!-- Allows extended templates to drop page specific JS -->
     {% block head %}
     {% endblock %}
 </head>

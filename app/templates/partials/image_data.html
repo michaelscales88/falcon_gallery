@@ -1,0 +1,9 @@
+<figcaption>
+    {% if image_data %}
+        <p>Title: {{ image_data.name|e|title|safe }}</p>
+        <p>Author: Vallejo</p>
+        <p>About: {{ image_data.about|e|safe }}</p>
+    {% else %}
+        <p>Title: {{ image.filename|e|title }}</p>
+    {% endif %}
+</figcaption>

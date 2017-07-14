@@ -1,37 +1,44 @@
-from flask import Blueprint, render_template, request, current_app, send_file, g
-from sqlalchemy.sql import expression
+from flask import Blueprint, render_template, request, current_app, send_file, g, abort
 import simplejson
 from app.models import Image
 from app.models.image import Image as ImageModel
 import os
 
 
-bp = Blueprint('gallery', __name__)    # , static_folder='static' , template_folder='templates'
+bp = Blueprint('gallery', __name__)
 
 
-@bp.route('/', methods=['GET', 'POST', ])
+@bp.route('/', methods=['GET', 'POST'])
 def index():
     images = Image.all(current_app.config['GALLERY_ROOT_DIR'])
-    image_list = [f.filename for f in images]
-    image_data = g.session.query(ImageModel).filter(ImageModel.file_name.in_(image_list)).all()   # Query ImageModel table
     return render_template(
-        'index.html',
+        'gallery.html',
         title='Gallery',
-        images=images,
-        image_data=image_data
+        images=images
     )
 
 
-@bp.route('/alternate', methods=['GET', 'POST'])
-def imageview(filename=''):
+@bp.route('/view/<filename>', methods=['GET', 'POST'])
+def imageview(filename='', image_data=None):
+    if filename:
+        # Get image metadata
+        image_data = g.session.query(ImageModel).filter(ImageModel.file_name == filename).first()
+        image_data.viewed()
+        g.session.add(image_data)
+        g.session.commit()
+
     return render_template(
-        'index.html'
+        'image.html',
+        image=filename,
+        image_data=image_data
     )
 
 
 @bp.route('/image/<filename>', methods=['GET'])
 def image(filename=''):
-    return send_file(os.path.join(current_app.config['GALLERY_ROOT_DIR'], filename))
+    file_path = os.path.join(current_app.config['GALLERY_ROOT_DIR'], filename)
+    file_exists = os.path.isfile(file_path)
+    return send_file(file_path) if file_exists else abort(400)
 
 
 @bp.route('/json')
@@ -50,7 +57,7 @@ def json():
             stop = int(request.args.get('stop'))
     except ValueError:
         current_app.logger.debug(request)
-        return ("start/stop parameters must be numeric", 400)
+        return "start/stop parameters must be numeric", 400
 
     images = images[start:stop]
 

@@ -72,7 +72,11 @@ class FilesystemObject(object):
         Return a list of files contained in the directory pointed by settings.GALLERY_ROOT_DIR.
         Ignores files without the correct extension
         """
-        return [cls(x, root=root) for x in os.listdir(root) if x.endswith(current_app.config['ALLOWED_EXTENSIONS'])]
+        return [cls(x, root=root) for x in os.listdir(root) if cls.allowed_extension(x)]
+
+    @staticmethod
+    def allowed_extension(file, extensions=None):
+        return file.endswith(extensions if extensions else current_app.config['ALLOWED_EXTENSIONS'])
 
 
 class Image(FilesystemObject):

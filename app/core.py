@@ -34,6 +34,6 @@ def transfer_uploads():
     uploads = os.listdir(current_app.config['UPLOAD_DIR'])
     for upload in uploads:
         move(
-            os.path.join(current_app.config['UPLOAD_DIR'], upload),  # SRC
-            os.path.join(current_app.config['GALLERY_ROOT_DIR'], upload) # DESTINATION
+            os.path.join(current_app.config['UPLOAD_DIR'], upload),     # SRC
+            os.path.join(current_app.config['GALLERY_ROOT_DIR'], upload)    # DESTINATION
         )

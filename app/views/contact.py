@@ -2,12 +2,13 @@ from flask import Blueprint, render_template, request, redirect, url_for, g
 from app.models.user import User
 
 
-bp = Blueprint('contact', __name__)    # , static_folder='static' , template_folder='templates'
+bp = Blueprint('contact', __name__)
 
 
 @bp.route('/contact', methods=['GET', 'POST',])
 @bp.route('/contact/<author>', methods=['GET'])
 def index(author=''):
+
     # author-choice form
     authors = g.session.query(User).all()
 

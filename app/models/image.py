@@ -1,19 +1,20 @@
 from sqlalchemy import Column, Text, DateTime, Integer
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy_utils import Timestamp, generic_repr
-
+from datetime import datetime
 from app.database import Base
 
 
 @generic_repr
 class Image(Timestamp, Base):
-    __searchable__ = ['name', 'about']
+    __searchable__ = ['display_name', 'about']
 
     id = Column(Integer, primary_key=True)
     file_name = Column(Text, unique=True)
-    name = Column(Text, index=True)
+    display_name = Column(Text, index=True)
     about = Column(Text)
     last_seen = Column(DateTime)
+    views = Column(Integer, default=0)
 
     @declared_attr
     def __tablename__(cls):
@@ -26,8 +27,7 @@ class Image(Timestamp, Base):
         except KeyError:
             return None
 
-    # def thumbnail(self, size):
-    #     return 'http://www.gravatar.com/avatar/{avatar}?d=mm&s={size}'.format(
-    #         avatar=md5(self.email.encode('utf-8')).hexdigest(),
-    #         size=size
-    #     )
+    def viewed(self):
+        # Count views for ranking algorithm
+        self.last_seen = datetime.utcnow()
+        self.views += 1

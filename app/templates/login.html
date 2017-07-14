@@ -1,20 +1,36 @@
-<!-- extend base layout -->
 {% extends "base.html" %}
 
+{% block head %}
+    {{ super() }}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='login.css') }}">
+{% endblock %}
+
 {% block content %}
-<h1>Sign In</h1>
-<form action="" method="POST" name="login">
-    {{ form.hidden_tag() }}
-    <p>
-        Please enter your username:
-        <br>
-        {{ form.login(size=80) }}
-        {% for error in form.login.errors %}
-          <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>{{ form.remember_me }} Remember Me</p>
-    <p><input type="submit" value="Sign In"></p>
-    <input type=hidden value="{{ next or '' }}" name=next>
-</form>
+    <header>
+        <h1>Sign In</h1>
+    </header>
+
+    <form action="" method="POST" name="login">
+        {{ form.hidden_tag() }}
+        <article>
+            <section>
+                <code>{{ form.login(class="form-control", placeholder="Login") }}</code>
+                <code>{{ form.password(class="form-control", placeholder="Password") }}</code>
+                <code>
+                    {{ form.remember_me }} Remember Me
+                    <button class="btn" type="submit" value="login">Login</button>
+                </code>
+            </section>
+        </article>
+        <input type=hidden value="{{ next or '' }}" name=next>
+        <aside>
+            <code>
+                {% for error in form.login.errors %}
+                    <span style="color: red;">[{{error}}]</span>
+                {% endfor %}
+            </code>
+        </aside>
+    </form>
+
+
 {% endblock %}

@@ -1,11 +1,8 @@
 <!-- If search enabled display the search form-->
-{% if g.search_enabled %}
-    <li>
-        <form class="navbar-form" method="POST" action="{{ url_for('search.index') }}">
-            <div class="input-group">
-                <input title="Type search term here" type="text" placeholder="Subject, Author, etc..." name="search"/>
-                <button type="submit" class="btn btn-secondary">Search</button>
-            </div>
-        </form>
-    </li>
-{% endif %}
+<form class="navbar-form navbar-text" method="POST" action="{{ url_for('search.index') }}">
+    <div class="form-group">
+        <input title="Type search term here" type="text" placeholder="Subject, Author, etc..." name="search"/>
+        <button type="submit" class="btn btn-secondary">Search</button>
+    </div>
+</form>
+

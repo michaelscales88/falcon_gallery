@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if image %}
+        <figure>
+            {% include 'partials/image_data.html' %}
+            <img src="{{ url_for('gallery.image', filename=image) }}">
+        </figure>
+    {% endif %}
+{% endblock %}
