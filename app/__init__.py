@@ -28,7 +28,7 @@ def favicon():
 # Configure login page
 lm = LoginManager()
 lm.init_app(app)
-lm.login_view = 'login'
+lm.login_view = 'login.login'
 
 # Create api and register views
 api = Api(app=app)

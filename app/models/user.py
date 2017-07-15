@@ -1,8 +1,17 @@
-from sqlalchemy import Column, Text, DateTime, Integer
+from sqlalchemy import Column, Text, DateTime, Integer, Table, ForeignKey
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy_utils import generic_repr
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.database import Base
+from app.models.image import Image
+
+artist_images = Table(
+    'artist_images',
+    Base.metadata,
+    Column('artist_id', Integer, ForeignKey('User.id')),
+    Column('image_id', Integer, ForeignKey('Image.id'))
+)
 
 
 @generic_repr
@@ -15,6 +24,14 @@ class User(Base):
     password_hash = Column(Text)
     about_me = Column(Text)
     last_seen = Column(DateTime)
+    tagged_images = relationship(
+        "images",
+        secondary=artist_images,
+        primaryjoin=(artist_images.c.artist_id == id),
+        secondaryjoin=(artist_images.c.image_id == id),
+        backref=backref('artist', lazy='dynamic'),
+        lazy='dynamic'
+    )
 
     @declared_attr
     def __tablename__(cls):
@@ -71,29 +88,30 @@ class User(Base):
             version += 1
         return new_nickname
 
-    # def follow(self, user):
-    #     if not self.is_following(user):
-    #         self.followed.append(user)
-    #         return self
-    #
-    # def unfollow(self, user):
-    #     if self.is_following(user):
-    #         self.followed.remove(user)
-    #         return self
-    #
-    # def is_following(self, user):
-    #     return self.followed.filter(followers.c.followed_id == user.id).count() > 0
-    #
-    # def followed_posts(self):
-    #     return (
-    #         Post
-    #         .query
-    #         .join(
-    #             followers, (followers.c.followed_id == Post.user_id)    # Join table, Join condition
-    #         ).filter(
-    #             followers.c.follower_id == self.id
-    #         )
-    #         .order_by(
-    #             Post.timestamp.desc()
-    #         )
-    #     )
+    def upload(self, image):
+        if not self.tracked_image(image):
+            self.tagged_images.append(image)
+            return self
+
+    def remove(self, image):
+        if self.tracked_image(image):
+            self.tagged_images.remove(image)
+            return self
+
+    def tracked_image(self, image):
+        return self.followed.filter(artist_images.c.followed_id == image.id).count() > 0
+
+    def images(self):
+        return Image.query.join(artist_images)
+        #     (
+        #     Image
+        #         .query
+        #         .join(
+        #         followers, (followers.c.followed_id == Post.user_id)  # Join table, Join condition
+        #     ).filter(
+        #         followers.c.follower_id == self.id
+        #     )
+        #         .order_by(
+        #         Post.timestamp.desc()
+        #     )
+        # )
