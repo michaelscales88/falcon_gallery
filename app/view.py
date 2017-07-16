@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import render_template, redirect, request, g, current_app
+from flask import render_template, redirect, request, g, current_app, flash
 from flask_login import login_required, current_user
 
 from app import app, lm, si
@@ -11,25 +11,32 @@ from app.database import db_session
 
 @app.before_request
 def before_request():
+    print('setup')
     g.user = current_user
     g.session = db_session
     g.search_enabled = current_app.config['ENABLE_SEARCH']
     if g.user.is_authenticated:
         g.user.last_seen = datetime.utcnow()
-        db_session.add(g.user)
-        db_session.commit()
     if g.search_enabled:
         si.register_class(User)  # update whoosh with User information
 
 
 @app.teardown_request
 def teardown(error):
+    print('teardown')
+    session = getattr(g, 'session', None)
+    # Only commit if we get this far
+    if session:
+        session.commit()
+
     # Good spot to offer a "review" option Y: do stuff then transfer N: transfer
     transfer_uploads()  # This EOL for my file object "session"
+    flash('Uploaded images!')
 
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
+    print('absolute session end')
     db_session.remove()     # Be certain than the session closes
 
 

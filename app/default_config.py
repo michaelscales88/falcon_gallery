@@ -20,6 +20,7 @@ class Config(object):
 
     # Model database
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + path.join(BASEDIR, 'app.db')
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + ':memory:'
     SQLALCHEMY_MIGRATE_REPO = path.join(BASEDIR, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Turn this off to reduce overhead
 

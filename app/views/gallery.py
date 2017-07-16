@@ -1,16 +1,16 @@
-from flask import Blueprint, render_template, request, current_app, send_file, g, abort
-import simplejson
-from app.models import Image
-from app.models.image import Image as ImageModel
 import os
+import simplejson
+from flask import Blueprint, render_template, request, current_app, send_file, g, abort
 
+from app.models.file_system import ImageFile
+from app.models.image import Image as ImageModel
 
 bp = Blueprint('gallery', __name__)
 
 
 @bp.route('/', methods=['GET', 'POST'])
 def index():
-    images = Image.all(current_app.config['GALLERY_ROOT_DIR'])
+    images = ImageFile.all(current_app.config['GALLERY_ROOT_DIR'])
     return render_template(
         'gallery.html',
         title='Gallery',
@@ -22,7 +22,7 @@ def index():
 def imageview(filename='', image_data=None):
     if filename:
         # Get image metadata
-        image_data = g.session.query(ImageModel).filter(ImageModel.file_name == filename).first()
+        image_data = g.session.query(Image).filter(Image.file_name == filename).first()
         image_data.viewed()
         g.session.add(image_data)
         g.session.commit()
@@ -46,7 +46,7 @@ def json():
     """Return a JSON containing an array of URL pointing to
     the images.
     """
-    images = Image.all(current_app.config['GALLERY_ROOT_DIR'])
+    images = ImageFile.all(current_app.config['GALLERY_ROOT_DIR'])
     start = 0
     stop = len(images)
 

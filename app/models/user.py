@@ -1,17 +1,9 @@
-from sqlalchemy import Column, Text, DateTime, Integer, Table, ForeignKey
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy import Column, Text, DateTime, Integer
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy_utils import generic_repr
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.database import Base
-from app.models.image import Image
-
-artist_images = Table(
-    'artist_images',
-    Base.metadata,
-    Column('artist_id', Integer, ForeignKey('User.id')),
-    Column('image_id', Integer, ForeignKey('Image.id'))
-)
 
 
 @generic_repr
@@ -24,14 +16,7 @@ class User(Base):
     password_hash = Column(Text)
     about_me = Column(Text)
     last_seen = Column(DateTime)
-    tagged_images = relationship(
-        "images",
-        secondary=artist_images,
-        primaryjoin=(artist_images.c.artist_id == id),
-        secondaryjoin=(artist_images.c.image_id == id),
-        backref=backref('artist', lazy='dynamic'),
-        lazy='dynamic'
-    )
+    images = relationship("ImageModel", back_populates='artist')
 
     @declared_attr
     def __tablename__(cls):
@@ -70,12 +55,6 @@ class User(Base):
         except KeyError:
             return None
 
-    # def avatar(self, size):
-    #     return 'http://www.gravatar.com/avatar/{avatar}?d=mm&s={size}'.format(
-    #         avatar=md5(self.email.encode('utf-8')).hexdigest(),
-    #         size=size
-    #     )
-
     @staticmethod
     def make_unique_display_name(nickname):
         if User.query.filter_by(display_name=nickname).first() is None:
@@ -89,29 +68,20 @@ class User(Base):
         return new_nickname
 
     def upload(self, image):
-        if not self.tracked_image(image):
-            self.tagged_images.append(image)
+        if not self.is_tracked(image):
+            self.images.append(image)
             return self
 
     def remove(self, image):
-        if self.tracked_image(image):
-            self.tagged_images.remove(image)
+        if self.is_tracked(image):
+            self.images.remove(image)
             return self
 
-    def tracked_image(self, image):
-        return self.followed.filter(artist_images.c.followed_id == image.id).count() > 0
+    def is_tracked(self, image):
+        return image in self.images
 
-    def images(self):
-        return Image.query.join(artist_images)
-        #     (
-        #     Image
-        #         .query
-        #         .join(
-        #         followers, (followers.c.followed_id == Post.user_id)  # Join table, Join condition
-        #     ).filter(
-        #         followers.c.follower_id == self.id
-        #     )
-        #         .order_by(
-        #         Post.timestamp.desc()
-        #     )
-        # )
+    # def avatar(self, size):
+    #     return 'http://www.gravatar.com/avatar/{avatar}?d=mm&s={size}'.format(
+    #         avatar=md5(self.email.encode('utf-8')).hexdigest(),
+    #         size=size
+    #     )

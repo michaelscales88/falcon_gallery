@@ -1,13 +1,9 @@
 """
-This module aims to create a model having the filesystem as backend, since
-if someone don't want to add extra metadata more than the metadata given
-by the file informations is useless to use a database.
+Consumes a posted file, creates metadata and creates the file.
 
-TODO: traverse directory.
 """
 from werkzeug.utils import secure_filename
 from flask import current_app
-
 import os
 
 
@@ -16,6 +12,7 @@ class FilesystemObjectDoesNotExist(Exception):
 
 
 class FilesystemObject(object):
+
     def __init__(self, filename, post=None, root=None):
         """Create an object from the information of the given filename or from a
         uploaded file.
@@ -41,12 +38,11 @@ class FilesystemObject(object):
         self.timestamp = stats.st_mtime
 
     def upload(self, post):
-        """Get a POST file and save it to the settings.GALLERY_ROOT_DIR"""
-        # http://flask.pocoo.org/docs/patterns/fileuploads/
-        file_name = os.path.join(self.root_dir, self.filename)
+        """Get a POST file and save it to the settings.UPLOAD_DIR"""
+        full_path = os.path.join(self.root_dir, self.filename)
 
         # Handle name conflicts
-        if os.path.isfile(file_name):
+        if os.path.isfile(full_path):
             file, ext = os.path.splitext(self.filename)
             counter = 1
 
@@ -58,13 +54,13 @@ class FilesystemObject(object):
                     )
             ):
                 counter += 1
-
-            file_name = os.path.join(
+            self.filename = '{0}({1}){2}'.format(file, counter, ext)
+            full_path = os.path.join(
                 current_app.config['UPLOAD_DIR'],
-                '{0}({1}){2}'.format(file, counter, ext)
+                self.filename
             )  # Save to the upload directory
 
-        post.save(file_name)
+        post.save(full_path)
 
     @classmethod
     def all(cls, root):
@@ -79,5 +75,5 @@ class FilesystemObject(object):
         return file.endswith(extensions if extensions else current_app.config['ALLOWED_EXTENSIONS'])
 
 
-class Image(FilesystemObject):
+class ImageFile(FilesystemObject):
     pass
