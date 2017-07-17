@@ -4,7 +4,7 @@ from flask import render_template, redirect, request, g, current_app, flash
 from flask_login import login_required, current_user
 
 from app import app, lm, si
-from app.models import User
+from app.models import User, Image
 from app.core import get_redirect_target, transfer_uploads
 from app.database import db_session
 
@@ -18,7 +18,8 @@ def before_request():
     if g.user.is_authenticated:
         g.user.last_seen = datetime.utcnow()
     if g.search_enabled:
-        si.register_class(User)  # update whoosh with User information
+        si.register_class(User)  # update whoosh
+        si.register_class(Image)
 
 
 @app.teardown_request

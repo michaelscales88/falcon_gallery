@@ -1,8 +1,48 @@
 {% extends "base.html" %}
 
+{% block head %}
+    {{ super() }}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='search_results.css') }}">
+{% endblock %}
+
 {% block content %}
-  <h1>Search results for "{{ query }}":</h1>
-    {% for result in user_results %}
-    {{ result }}
-    {% endfor %}
+    <div class="container-fluid text-center padded">
+        <nav>
+            <h1>Search results</h1>
+        </nav>
+        <section>
+            <code>
+                {% if user_results %}
+                    <!-- Set local results variable for results partial -->
+                    {% set results = user_results %}
+                    {% include 'partials/results.html' %}
+                {% endif %}
+
+                {% if image_results %}
+                    <!-- Set local results variable for results partial -->
+                    {% set results = image_results %}
+                    {% include 'partials/results.html' %}
+                {% endif %}
+            </code>
+        </section>
+        <aside>
+            <code>
+                Results for "{{ query }}":
+                {% if user_results %}
+                    {% for result in user_results %}
+                        <p>
+                            <a href="{{ url_for('gallery.imageview', filename=result.file_name) }}">{{ result.display_name }}</a>
+                        </p>
+                    {% endfor %}
+                {% endif %}
+                {% if image_results %}
+                    {% for result in image_results %}
+                        <p>
+                            <a href="{{ url_for('gallery.imageview', filename=result.file_name) }}">{{ result.display_name }}</a>
+                        </p>
+                    {% endfor %}
+                {% endif %}
+            </code>
+        </aside>
+    </div>
 {% endblock %}

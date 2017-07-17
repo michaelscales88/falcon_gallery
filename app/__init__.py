@@ -15,8 +15,8 @@ app.config.from_object('app.default_config.DevelopmentConfig')
 if app.config['ENABLE_SEARCH']:
     from whooshalchemy import IndexService
     si = IndexService(config=app.config)
-    if os.path.isdir(app.config['WHOOSH_BASE']):
-        shutil.rmtree(app.config['WHOOSH_BASE'])  # fresh index from whoosh prevents errors/slowdowns
+    # if os.path.isdir(app.config['WHOOSH_BASE']):
+    #     shutil.rmtree(app.config['WHOOSH_BASE'])  # fresh index from whoosh prevents errors/slowdowns
 
 
 # Avoid favicon 404

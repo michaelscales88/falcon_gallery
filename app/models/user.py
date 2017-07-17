@@ -16,7 +16,7 @@ class User(Base):
     password_hash = Column(Text)
     about_me = Column(Text)
     last_seen = Column(DateTime)
-    images = relationship("ImageModel", back_populates='artist')
+    images = relationship("Image", back_populates='artist')
 
     @declared_attr
     def __tablename__(cls):

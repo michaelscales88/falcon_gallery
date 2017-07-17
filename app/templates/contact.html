@@ -7,15 +7,21 @@
 
 {% block content %}
     <form method="POST" action="{{ url_for('contact.index') }}" role="form" class="form-horizontal">
-    <code class="form-group container-fluid text-center padded">
-        <label for="author-select">Author:</label>
-        <select class="form-control" id="author-select" name="author">
-            {% for author in authors %}
-                <option value="{{ author.display_name }}">{{ author.display_name }}</option>
-            {% endfor %}
-        </select>
-        <button class="btn btn-secondary" type="submit">Submit</button>
-    </code>
+        <div class="container-fluid text-center padded">
+            <div class="form-group">
+                <header>
+                    <code>
+                        <label for="author-select">Author:</label>
+                        <select class="form-control" id="author-select" name="author">
+                            {% for author in authors %}
+                                <option value="{{ author.display_name }}">{{ author.display_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-secondary" type="submit">Submit</button>
+                    </code>
+                </header>
+            </div>
+        </div>
     </form>
     <div class="container-fluid text-center padded">
         <img src="{{ url_for('static', filename='favicon.ico') }}" class ="img-responsive img-circle" style="display: inline;" alt="Avatar">

@@ -47,8 +47,6 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_ECHO = False
-    WIPE_SESSION = True
-    MAX_RECORDS = 3000
     SQLALCHEMY_TRACK_MODIFICATIONS = True  # Turn this off to reduce overhead
 
 

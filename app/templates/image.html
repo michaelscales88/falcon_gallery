@@ -4,7 +4,9 @@
     {% if image %}
         <figure>
             {% include 'partials/image_data.html' %}
-            <img src="{{ url_for('gallery.image', filename=image) }}">
+            <a href="{{ url_for('gallery.index') }}">
+                <img src="{{ url_for('gallery.image', filename=image) }}" alt="{{ image.filename }}">
+            </a>
         </figure>
     {% endif %}
 {% endblock %}
