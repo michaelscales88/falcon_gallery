@@ -1,4 +1,4 @@
-from os import urandom, path, environ
+from os import urandom, path, environ, makedirs
 
 
 class Config(object):
@@ -8,6 +8,11 @@ class Config(object):
     BASEDIR = path.abspath(path.dirname(__file__))
     PACKAGEDIR = path.dirname(BASEDIR)
     PACKAGE_NAME = path.basename(PACKAGEDIR)
+
+    # Profile images
+    AVATAR_DIR = path.join(PACKAGEDIR, 'instance', 'private')
+    if not path.isdir(AVATAR_DIR):
+        makedirs(AVATAR_DIR, exist_ok=True)
 
     GALLERY_ROOT_DIR = path.join(PACKAGEDIR, 'instance', 'gallery')
     UPLOAD_DIR = path.join(PACKAGEDIR, 'instance', 'uploads')

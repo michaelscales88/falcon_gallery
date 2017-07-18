@@ -24,28 +24,31 @@
 
     <!-- Handle cookie for splash page-->
     <script type="text/javascript">
-        // page to go to if cookie does not exist
-        go_to_splash = "{{ url_for('splash') }}";
+        $( document ).ready(function() {
 
-        // number of days cookie lives for - in this case ~3 weeks
-        num_days = 18;
-        function ged(noDays){
-            var today = new Date();
-            var expr = new Date(today.getTime() + noDays*24*60*60*1000);
-            return  expr.toGMTString();
-        }
-        function readCookie(cookieName){
-            var start = document.cookie.indexOf(cookieName);
-            if (start == -1){
-                // a cookie will be added and the page redirects to splash.html
-                document.cookie = "seenit=yes; expires=" + ged(num_days);
-                window.location = go_to_splash;
-            } else {
-                // if a cookie still exists, there will be no redirect
+            // page to go to if cookie does not exist
+            var go_to_splash = "{{ url_for('splash') }}";
+
+            // number of days cookie lives for - in this case ~3 weeks
+            var num_days = 18;
+            function ged(noDays){
+                var today = new Date();
+                var expr = new Date(today.getTime() + noDays*24*60*60*1000);
+                return  expr.toGMTString();
             }
-        }
+            function readCookie(cookieName){
+                var start = document.cookie.indexOf(cookieName);
+                if (start == -1){
+                    // a cookie will be added and the page redirects to splash.html
+                    document.cookie = "seenit=yes; expires=" + ged(num_days);
+                    window.location = go_to_splash;
+                } else {
+                    // Go somewhere else
+                }
+            }
 
-        readCookie("seenit");
+            readCookie("seenit");
+        });
     </script>
 
     <link rel="shortcut icon" href="{{ url_for('favicon') }}" type="image/x-icon" />
@@ -64,17 +67,9 @@
 
 <body>
 <!-- Navigation bar for all base pages -->
-{% include 'navigation.html' %}
+{% include 'navigation/navigation.html' %}
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }} </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
+{% include 'message.html' %}
 
 {% block content %}{% endblock %}
 </body>

@@ -1,0 +1,17 @@
+<code>
+    Results for "{{ query }}":
+    {% if user_results %}
+        {% for result in user_results %}
+            <p>
+                <a href="{{ url_for('gallery.view', filename=result.file_name) }}">{{ result.display_name }}</a>
+            </p>
+        {% endfor %}
+    {% endif %}
+    {% if image_results %}
+        {% for result in image_results %}
+            <p>
+                <a href="{{ url_for('gallery.view', filename=result.file_name) }}">{{ result.display_name }}</a>
+            </p>
+        {% endfor %}
+    {% endif %}
+</code>

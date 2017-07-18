@@ -12,14 +12,14 @@ bp = Blueprint('gallery', __name__)
 def index():
     images = ImageFile.all(current_app.config['GALLERY_ROOT_DIR'])
     return render_template(
-        'gallery.html',
+        'gallery/gallery.html',
         title='Gallery',
         images=images
     )
 
 
 @bp.route('/view/<filename>', methods=['GET', 'POST'])
-def imageview(filename='', image_data=None):
+def view(filename='', image_data=None):
     if filename:
         # Get image metadata
         image_data = g.session.query(Image).filter(Image.file_name == filename).first()
@@ -27,7 +27,7 @@ def imageview(filename='', image_data=None):
         g.session.add(image_data)
 
     return render_template(
-        'image.html',
+        'gallery/view.html',
         image=filename,
         image_data=image_data
     )

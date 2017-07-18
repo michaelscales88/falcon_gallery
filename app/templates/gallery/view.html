@@ -3,7 +3,7 @@
 {% block content %}
     {% if image %}
         <figure>
-            {% include 'partials/image_data.html' %}
+            {% include 'gallery/image_data.html' %}
             <a href="{{ url_for('gallery.index') }}">
                 <img src="{{ url_for('gallery.image', filename=image) }}" alt="{{ image.filename }}">
             </a>

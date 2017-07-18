@@ -44,12 +44,12 @@ def login():
             else:
                 nickname = email.split('@')[0]
                 nickname = User.make_unique_display_name(nickname)
-                new_user = User(display_name=nickname, email=email, password=password)
+                new_user = User(alias=nickname, email=email, password=password)
                 db_session.add(new_user)
                 db_session.commit()
-                flash('Successfully created login for', new_user.display_name)
+                flash('Successfully created login for', new_user.alias)
             return redirect(next if next else url_for('gallery.index'))
-    return render_template('login.html',
+    return render_template('user/login.html',
                            title='Sign In',
                            next=next,
                            form=form)

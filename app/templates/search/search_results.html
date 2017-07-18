@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='search.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid text-center padded">
+        <nav>
+            <h1>Search results</h1>
+        </nav>
+        <section>
+            <code>
+                {% if user_results %}
+                    <!-- Set local results variable for results partial -->
+                    {% set results = user_results %}
+                    {% include 'search/results_carousel.html' %}
+                {% endif %}
+
+                {% if image_results %}
+                    <!-- Set local results variable for results partial -->
+                    {% set results = image_results %}
+                    {% include 'search/results_carousel.html' %}
+                {% endif %}
+            </code>
+        </section>
+        <aside>
+            {% include 'search/search_links.html' %}
+        </aside>
+    </div>
+{% endblock %}

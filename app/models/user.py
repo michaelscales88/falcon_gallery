@@ -8,15 +8,19 @@ from app.database import Base
 
 @generic_repr
 class User(Base):
-    __searchable__ = ['display_name', 'about_me']
+    __searchable__ = ['alias', 'about_me']
 
     id = Column(Integer, primary_key=True)
-    display_name = Column(Text, index=True, unique=True)
-    email = Column(Text, index=True, unique=True)
+    alias = Column(Text, index=True, unique=True)
+    email = Column(Text, unique=True)
+    avatar = Column(Text, unique=True)
+    first_name = Column(Text)
+    last_name = Column(Text)
     password_hash = Column(Text)
     about_me = Column(Text)
     last_seen = Column(DateTime)
     images = relationship("Image", back_populates='artist')
+    links = relationship("Link", back_populates='user')
 
     @declared_attr
     def __tablename__(cls):
@@ -57,12 +61,12 @@ class User(Base):
 
     @staticmethod
     def make_unique_display_name(nickname):
-        if User.query.filter_by(display_name=nickname).first() is None:
+        if User.query.filter_by(alias=nickname).first() is None:
             return nickname
         version = 2
         while True:
             new_nickname = nickname + str(version)
-            if User.query.filter_by(display_name=new_nickname).first() is None:
+            if User.query.filter_by(alias=new_nickname).first() is None:
                 break
             version += 1
         return new_nickname
@@ -80,8 +84,3 @@ class User(Base):
     def is_tracked(self, image):
         return image in self.images
 
-    # def avatar(self, size):
-    #     return 'http://www.gravatar.com/avatar/{avatar}?d=mm&s={size}'.format(
-    #         avatar=md5(self.email.encode('utf-8')).hexdigest(),
-    #         size=size
-    #     )

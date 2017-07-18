@@ -20,6 +20,7 @@ def init_db():
 
     # from app.models import ArtistAlbum
     from app.models import Image
+    from app.models import Link
     from app.models import User
 
     Base.metadata.create_all(bind=engine)

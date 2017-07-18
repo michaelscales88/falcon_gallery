@@ -60,7 +60,8 @@ def splash():
         return redirect(next)
     else:
         pass
-        # Show recent items for the user
+        # Show bitching splash page stuff
+
     return render_template(
         'splash.html',
         title='Recent',
@@ -68,7 +69,7 @@ def splash():
     )
 
 
-@app.route("/settings")
+@app.route("/user")
 @login_required
 def settings():
     pass

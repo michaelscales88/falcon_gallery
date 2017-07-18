@@ -1,0 +1,21 @@
+<!-- Links section -->
+{% if user %}
+    {% for link in user.links %}
+        <div class="form-inline">
+            <label for="{{ link.type }}-link" class="control-label">{{ link.type }} link:</label>
+            <input id="{{ link.type }}-link" class="form-control" type="text" value="{{ link.link }}">
+        </div>
+    {% endfor %}
+    <form class="form-inline" method="POST" target="{{ url_for('settings') }}">
+        <div class="form-group">
+            <label for="link-type" class="control-label">Link type:</label>
+            <input id="link-type" class="form-control" type="text" value="Type" name="link_type">
+        </div>
+        <div>
+            <label for="link-proper" class="control-label">Link:</label>
+            <input id="link-proper" class="form-control" type="text" value="Link" name="link_proper">
+        </div>
+        <label for="add-link" class="control-label">Add link:</label>
+        <button class="glyphicon glyphicon-plus" type="submit" id="add-link"></button>
+    </form>
+{% endif %}

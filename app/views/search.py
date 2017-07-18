@@ -23,7 +23,7 @@ def search_results(query):
     for image in image_query:
         image_results.append(image)
     return render_template(
-        'search_results.html',
+        'search/search_results.html',
         query=query,
         user_results=user_results,
         image_results=image_results

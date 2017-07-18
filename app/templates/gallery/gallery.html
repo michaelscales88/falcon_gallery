@@ -3,7 +3,7 @@
 {% block content %}
     {% for image in images %}
         <section>
-            <a href="{{ url_for('gallery.imageview', filename=image.filename) }}">
+            <a href="{{ url_for('gallery.view', filename=image.filename) }}">
                 <img class="img-responsive"
                      src="{{ url_for('gallery.image', filename=image.filename) }}"
                      alt="{{ image.filename }}"/>

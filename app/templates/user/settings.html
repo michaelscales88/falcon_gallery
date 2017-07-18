@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {{ super() }}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='settings.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid text-centered padded">
+        <header><h1>Edit Profile</h1></header>
+        <form class="form-group" role="form">
+            <div class="col-sm-4">
+                <h3>User Info</h3>
+                <code>
+                    {% include 'user/account_settings.html' %}
+                </code>
+            </div>
+            <div class="col-sm-4">
+                <h3>Avatar</h3>
+                <code>
+                    {% include 'user/avatar_area.html' %}
+                </code>
+            </div>
+            <footer>
+                <div class="text-centered padded">
+                    <code>
+                        <button class="btn btn-secondary" type="submit">Save</button>
+                        <button class="btn btn-secondary" type="reset">Cancel</button>
+                    </code>
+                </div>
+            </footer>
+        </form>
+        <div class="col-sm-4">
+            <h3>Links</h3>
+            <code>
+                {% include 'user/user_links.html' %}
+            </code>
+            <h3>Merchandise</h3>
+            <code>
+                {% include 'user/user_links.html' %}
+            </code>
+        </div>
+    </div>
+{% endblock %}

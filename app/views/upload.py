@@ -7,7 +7,7 @@ from app.models.image import Image
 bp = Blueprint('upload', __name__)
 
 
-@bp.route('/upload', methods=['GET', 'POST',])
+@bp.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
     next = get_redirect_target()

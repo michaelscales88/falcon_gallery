@@ -1,6 +1,5 @@
 """
 Consumes a posted file, creates metadata and creates the file.
-
 """
 from werkzeug.utils import secure_filename
 from flask import current_app
@@ -38,7 +37,7 @@ class FilesystemObject(object):
         self.timestamp = stats.st_mtime
 
     def upload(self, post):
-        """Get a POST file and save it to the settings.UPLOAD_DIR"""
+        """Get a POST file and save it to the user.UPLOAD_DIR"""
         full_path = os.path.join(self.root_dir, self.filename)
 
         # Handle name conflicts
@@ -65,7 +64,7 @@ class FilesystemObject(object):
     @classmethod
     def all(cls, root):
         """
-        Return a list of files contained in the directory pointed by settings.GALLERY_ROOT_DIR.
+        Return a list of files contained in the directory pointed by user.GALLERY_ROOT_DIR.
         Ignores files without the correct extension
         """
         return [cls(x, root=root) for x in os.listdir(root) if cls.allowed_extension(x)]
