@@ -19,14 +19,14 @@ def index():
         img = Image('', post=image, root=current_app.config['GALLERY_ROOT_DIR'])
 
         # Add this image to the users' record of images
-        g.user.upload(img)
+        g.user.upload_image(img)
 
         # Add the uploaded images to the session
         g.session.add(g.user)
 
         return redirect_back('index.index')
     return render_template(
-        'upload.html',
+        'upload/upload.html',
         title='Upload',
         next=next
     )

@@ -5,7 +5,7 @@
         <figure>
             {% include 'gallery/image_data.html' %}
             <a href="{{ url_for('gallery.index') }}">
-                <img src="{{ url_for('gallery.image', filename=image) }}" alt="{{ image.filename }}">
+                <img src="{{ url_for('image', filename=image) }}" alt="{{ image.filename }}">
             </a>
         </figure>
     {% endif %}

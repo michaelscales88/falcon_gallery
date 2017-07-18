@@ -1,6 +1,5 @@
-import os
 import simplejson
-from flask import Blueprint, render_template, request, current_app, send_file, g, abort
+from flask import Blueprint, render_template, request, current_app, g
 
 from app.models.file_system import ImageFile
 from app.models.image import Image
@@ -31,13 +30,6 @@ def view(filename='', image_data=None):
         image=filename,
         image_data=image_data
     )
-
-
-@bp.route('/image/<filename>', methods=['GET'])
-def image(filename=''):
-    file_path = os.path.join(current_app.config['GALLERY_ROOT_DIR'], filename)
-    file_exists = os.path.isfile(file_path)
-    return send_file(file_path) if file_exists else abort(400)
 
 
 @bp.route('/json')

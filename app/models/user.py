@@ -71,16 +71,27 @@ class User(Base):
             version += 1
         return new_nickname
 
-    def upload(self, image):
-        if not self.is_tracked(image):
+    def upload_image(self, image):
+        if not self.tracked(image, self.images):
             self.images.append(image)
             return self
 
-    def remove(self, image):
-        if self.is_tracked(image):
+    def remove_image(self, image):
+        if self.tracked(image, self.images):
             self.images.remove(image)
             return self
 
-    def is_tracked(self, image):
-        return image in self.images
+    def add_link(self, link):
+        if not self.tracked(link, self.links):
+            self.links.append(link)
+            return self
+
+    def remove_link(self, link):
+        if self.tracked(link, self.links):
+            self.links.remove(link)
+            return self
+
+    @staticmethod
+    def tracked(obj, collection):
+        return obj in collection
 

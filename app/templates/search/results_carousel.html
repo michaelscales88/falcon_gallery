@@ -7,7 +7,7 @@
     <div class="carousel-inner" role="listbox">
             {% for result in results %}
                 <div class="item  {{"active" if loop.index0 == 0 }}">
-                    <img class="d-block img-fluid" src="{{ url_for('gallery.image', filename=result.file_name) }}" alt="Slide {{ loop.index0 }}">
+                    <img class="d-block img-fluid" src="{{ url_for('image', filename=result.file_name) }}" alt="Slide {{ loop.index0 }}">
                     <div class="carousel-caption d-none d-md-block">
                         <h4>{{ result.display_name }}</h4>
                   </div>

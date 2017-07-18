@@ -1,25 +1,25 @@
 <!-- User profile info -->
-<div class="form-inline">
+<div class="input-group">
     <label for="first_name" class="control-label">First name:</label>
-    <input id="first_name" class="form-control" type="text" value="{{ user.first_name }}">
+    <input id="first_name" class="form-control" type="text" placeholder="{{ user.first_name }}" name="first_name">
 </div>
-<div class="form-inline">
+<div class="input-group">
     <label for="last_name" class="control-label">Last name:</label>
-    <input id="last_name" class="form-control" type="text" value="{{ user.last_name }}">
+    <input id="last_name" class="form-control" type="text" placeholder="{{ user.last_name }}" name="last_name">
 </div>
-<div class="form-inline">
+<div class="input-group">
     <label for="username" class="control-label">Username (Email):</label>
-    <input id="username" class="form-control" type="text" value="{{ user.email }}">
+    <input id="username" class="form-control" type="text" placeholder="{{ user.email }}" name="email">
 </div>
-<div class="form-inline">
+<div class="input-group">
     <label for="password" class="control-label">Password: </label>
-    <input id="password" class="form-control" type="password" value="11111122333">
+    <input id="password" class="form-control" type="password" placeholder="11111122333" name="password">
 </div>
-<div class="form-inline">
+<div class="input-group">
     <label for="confirm_password" class="control-label">Confirm Password: </label>
-    <input id="confirm_password" class="form-control" type="password" value="11111122333">
+    <input id="confirm_password" class="form-control" type="password" placeholder="11111122333" name="password_confirm">
 </div>
-<div class="form-group">
+<div class="input-group">
     <label for="user-time-zone" class="control-label">Time Zone:</label>
     <select class="form-control" id="user-time-zone" name="time-zone">
         <option value="Hawaii">(GMT-10:00) Hawaii</option>

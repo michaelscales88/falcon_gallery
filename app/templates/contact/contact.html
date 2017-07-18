@@ -6,40 +6,23 @@
 {% endblock %}
 
 {% block content %}
-    <form method="POST" action="{{ url_for('contact.index') }}"
-          role="form" class="form-horizontal">
-        <div class="container-fluid text-center padded">
-            <div class="form-group">
-                <header>
-                    <code>
-                        <label for="author-select">Author:</label>
-                        <select class="form-control" id="author-select" name="author">
-                            {% for author in authors %}
-                                <option value="{{ author.alias }}"
-                                        {% if author.alias == selected_author.alias %}
-                                        selected="selected"
-                                        {% endif %}>
-                                    {{ author.alias }}</option>
-                            {% endfor %}
-                        </select>
-                        <button class="btn btn-secondary" type="submit">Submit</button>
-                    </code>
-                </header>
-            </div>
-        </div>
+    <form method="POST" action="{{ url_for('contact.index') }}" role="form" class="form-horizontal">
+        {% include 'contact/author_select.html' %}
     </form>
     <div class="container-fluid text-center padded">
-        <img src="{{ url_for('static', filename='favicon.ico') }}"
+        <img src="{{ url_for('avatar', filename=selected_author.avatar|e|safe) if selected_author.avatar else '//placehold.it/100' }}"
              class ="img-responsive img-circle" style="display: inline;" alt="Avatar">
     </div>
     <div class="container-fluid text-center padded">
         <section>
-            <code>Merchandise for {{ selected_author.display_name }}</code>
+            <h3>Merchandise for {{ selected_author.alias }}</h3>
+            {% set links = selected_author.links %}
+            {% include 'contact/contact_links.html' %}
         </section>
         <aside>
-            <code>Links for {{ selected_author.display_name }}</code>
-            <code>Twitter</code>
-            <code>Instagram</code>
+            <h3>Links for {{ selected_author.alias }}</h3>
+            {% set links = selected_author.links %}
+            {% include 'contact/contact_links.html' %}
         </aside>
     </div>
     <div class="container-fluid text-center padded">

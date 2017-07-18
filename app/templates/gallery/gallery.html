@@ -5,7 +5,7 @@
         <section>
             <a href="{{ url_for('gallery.view', filename=image.filename) }}">
                 <img class="img-responsive"
-                     src="{{ url_for('gallery.image', filename=image.filename) }}"
+                     src="{{ url_for('image', filename=image.filename) }}"
                      alt="{{ image.filename }}"/>
             </a>
         </section>

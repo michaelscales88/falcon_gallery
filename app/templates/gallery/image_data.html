@@ -1,8 +1,8 @@
 <figcaption>
     {% if image_data %}
         <p>Title: {{ image_data.display_name|e|title|safe }}</p>
-        <p>Author: <a href="{{ url_for('contact.index', author=image_data.artist.display_name) }}">
-            {{ image_data.artist.display_name|e|title|safe }}
+        <p>Author: <a href="{{ url_for('contact.index', author=image_data.artist.alias) }}">
+            {{ image_data.artist.alias|e|title|safe }}
         </a></p>
         <p>About: {{ image_data.about|e|safe }}</p>
     {% else %}

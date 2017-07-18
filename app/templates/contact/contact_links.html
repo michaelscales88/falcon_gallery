@@ -1,0 +1,10 @@
+<!-- Make contact links for user  -->
+<div class="container-fluid text-center padded">
+    <div class="form-group">
+        {% for link in links %}
+            <code>
+                <a href="{{ link.link }}">{{ link.link_type }}</a>
+            </code>
+        {% endfor %}
+    </div>
+</div>

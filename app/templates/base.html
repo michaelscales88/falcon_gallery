@@ -27,7 +27,7 @@
         $( document ).ready(function() {
 
             // page to go to if cookie does not exist
-            var go_to_splash = "{{ url_for('splash') }}";
+            var go_to_splash = "{{ url_for('showcase') }}";
 
             // number of days cookie lives for - in this case ~3 weeks
             var num_days = 18;
@@ -39,7 +39,7 @@
             function readCookie(cookieName){
                 var start = document.cookie.indexOf(cookieName);
                 if (start == -1){
-                    // a cookie will be added and the page redirects to splash.html
+                    // a cookie will be added and the page redirects to showcase.html
                     document.cookie = "seenit=yes; expires=" + ged(num_days);
                     window.location = go_to_splash;
                 } else {

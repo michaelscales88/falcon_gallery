@@ -1,11 +1,11 @@
+import os
 from datetime import datetime
-
-from flask import render_template, redirect, request, g, current_app, flash
-from flask_login import login_required, current_user
+from flask import render_template, redirect, request, g, current_app, flash, send_file, abort
+from flask_login import current_user
 
 from app import app, lm, si
 from app.models import User, Image
-from app.core import get_redirect_target, transfer_uploads
+from app.core import get_redirect_target, transfer_uploads, send_or_404
 from app.database import db_session
 
 
@@ -52,8 +52,8 @@ def internal_error(error):
     return render_template('500.html'), 500
 
 
-@app.route('/splash', methods=['GET', 'POST'])
-def splash():
+@app.route('/showcase', methods=['GET', 'POST'])
+def showcase():
     next = get_redirect_target()
     clicked = request.form.get('clicked')
     if clicked:
@@ -63,18 +63,22 @@ def splash():
         # Show bitching splash page stuff
 
     return render_template(
-        'splash.html',
+        'showcase.html',
         title='Recent',
         next=next
     )
 
 
-@app.route("/user")
-@login_required
-def settings():
-    pass
-
-
 @lm.user_loader
 def load_user(id):
     return User.get(id=int(id))
+
+
+@app.route('/image/<filename>', methods=['GET'])
+def image(filename=''):
+    return send_or_404(current_app.config['GALLERY_ROOT_DIR'], filename)
+
+
+@app.route('/avatar/<filename>', methods=['GET'])
+def avatar(filename=''):
+    return send_or_404(current_app.config['AVATAR_DIR'], filename)

@@ -11,35 +11,25 @@ code {
   padding: 24px 15px;
   text-align: center;
 }
-header  {
+header,
+section,
+aside {
   margin: 0 1.5% 24px 1.5%;
 }
 section {
   float: left;
-  width: 50%;
+  width: 63%;
 }
 aside {
   float: right;
-  width: 50%;
+  width: 30%;
 }
 footer {
   clear: both;
   margin-bottom: 0;
 }
 
-input[type="file"]{
-        height:50px;
-}
-
-input[type="file"]::-webkit-file-upload-button{
-    height:50px;
-}
-
 .padded {
-    padding: 50px;
-}
-
-.form-group {
-    width: 100%;
-    clear: both;
+    padding-top: 70px;
+    padding-bottom: 70px;
 }

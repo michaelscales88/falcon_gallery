@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {{ super() }}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='upload.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+
+            <form class="form-group" method="POST" enctype="multipart/form-data">
+                <div class="container-fluid">
+                <div class="container-fluid text-centered padded">
+                    <section>
+                        <label id="upload-form">Upload form:</label>
+                        <input type="file" name="image multiple" id="upload-form">
+                    </section>
+                </div>
+                <div class="container-fluid text-centered padded">
+                    <input type="submit" value="Upload" id="upload-form">
+                    <input type="hidden" value="{{ next or '' }}" name=next>    <!-- Important: This links to the next view -->
+                </div>
+                </div>
+            </form>
+
+    </div>
+{% endblock %}

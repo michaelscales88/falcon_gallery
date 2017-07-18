@@ -1,7 +1,13 @@
 import os
-from flask import request, url_for, abort, redirect, current_app
+from flask import request, url_for, abort, redirect, current_app, send_file
 from urllib.parse import urlparse, urljoin
 from shutil import move
+
+
+def send_or_404(directory, file):
+    file_path = os.path.join(directory, file)
+    file_exists = os.path.isfile(file_path)
+    return send_file(file_path) if file_exists else abort(400)
 
 
 def get_redirect_target():

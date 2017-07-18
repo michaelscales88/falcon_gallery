@@ -2,43 +2,51 @@
 
 {% block head %}
     {{ super() }}
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='settings.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='settings.css') }}">
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid text-centered padded">
+    <div class="container-fluid">
         <header><h1>Edit Profile</h1></header>
-        <form class="form-group" role="form">
-            <div class="col-sm-4">
-                <h3>User Info</h3>
-                <code>
-                    {% include 'user/account_settings.html' %}
-                </code>
-            </div>
-            <div class="col-sm-4">
-                <h3>Avatar</h3>
-                <code>
-                    {% include 'user/avatar_area.html' %}
-                </code>
-            </div>
-            <footer>
-                <div class="text-centered padded">
+        <div class="container-fluid text-centered padded">
+            <form class="form-group" role="form" method="POST"
+                  target="{{ url_for('user.index') }}" enctype=multipart/form-data>
+
+                <section>
+                    <h3>User Info</h3>
                     <code>
-                        <button class="btn btn-secondary" type="submit">Save</button>
-                        <button class="btn btn-secondary" type="reset">Cancel</button>
+                        {% include 'user/account_settings.html' %}
                     </code>
-                </div>
-            </footer>
-        </form>
-        <div class="col-sm-4">
-            <h3>Links</h3>
-            <code>
-                {% include 'user/user_links.html' %}
-            </code>
-            <h3>Merchandise</h3>
-            <code>
-                {% include 'user/user_links.html' %}
-            </code>
-        </div>
-    </div>
+                </section>
+
+                <aside>
+                    <h3>Avatar</h3>
+                    <code>
+                        {% include 'user/avatar_area.html' %}
+                    </code>
+                </aside>
+
+                <footer>
+                    <code>
+                        <button class="btn btn-secondary" type="submit" id="user-form">Save</button>
+                        <button class="btn btn-secondary" type="reset" id="user-form">Cancel</button>
+                    </code>
+                </footer>
+            </form>
+        </div>   <!-- User form container-fluid -->
+        <div class="container-fluid text-centered padded">
+            <section>
+                <h3>Merchandise</h3>
+                <code>
+                    {% include 'user/user_links.html' %}
+                </code>
+            </section>
+            <aside>
+                <h3>Links</h3>
+                <code>
+                    {% include 'user/user_links.html' %}
+                </code>
+            </aside>
+        </div>  <!-- Links container-fluid -->
+    </div>  <!-- Page container-fluid -->
 {% endblock %}
