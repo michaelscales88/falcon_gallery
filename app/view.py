@@ -1,6 +1,5 @@
-import os
 from datetime import datetime
-from flask import render_template, redirect, request, g, current_app, flash, send_file, abort
+from flask import render_template, redirect, request, g, current_app, flash
 from flask_login import current_user
 
 from app import app, lm, si
