@@ -53,7 +53,7 @@ class FilesystemObject(object):
                     )
             ):
                 counter += 1
-            self.filename = '{0}({1}){2}'.format(file, counter, ext)
+            self.filename = '{0}({1}){2}'.format(file, counter, ext)    # Update filename post collision resolution
             full_path = os.path.join(
                 current_app.config['UPLOAD_DIR'],
                 self.filename

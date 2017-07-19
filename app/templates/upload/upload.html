@@ -3,25 +3,46 @@
 {% block head %}
     {{ super() }}
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='upload.css') }}">
+    <script>
+        $(document).ready(function (e) {
+            $("#uploadForm").on('submit',function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ url_for('upload.index') }}",
+                    type: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $("#targetLayer").html(data);
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
     <div class="container-fluid">
-
-            <form class="form-group" method="POST" enctype="multipart/form-data">
-                <div class="container-fluid">
+        <div id="targetLayer">No Image</div>
+        <form class="form-group" id="uploadForm">   <!-- secret sauce is the uploadForm id -->
+            <div class="container-fluid">
                 <div class="container-fluid text-centered padded">
                     <section>
-                        <label id="upload-form">Upload form:</label>
-                        <input type="file" name="image multiple" id="upload-form">
+                        <code>
+                            <label>Upload form:</label>
+                            <input type="file" name="image">
+                        </code>
                     </section>
                 </div>
-                <div class="container-fluid text-centered padded">
-                    <input type="submit" value="Upload" id="upload-form">
-                    <input type="hidden" value="{{ next or '' }}" name=next>    <!-- Important: This links to the next view -->
-                </div>
-                </div>
-            </form>
-
-    </div>
+                <footer>
+                    <code>
+                        <button class="btn btn-secondary" type="submit">Submit</button>
+                        <button class="btn btn-secondary" type="reset">Cancel</button>
+                        <input type="hidden" value="{{ next or '' }}" name=next>    <!-- Important: This links to the next view -->
+                    </code>
+                </footer>
+            </div>
+        </form>
+    </div>  <!-- Container fluid -->
 {% endblock %}

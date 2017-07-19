@@ -10,6 +10,7 @@ bp = Blueprint('upload', __name__)
 @bp.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
+    print('upload.index')
     next = get_redirect_target()
     if request.method == 'POST' and 'image' in request.files:
         image = request.files['image']
