@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    {{ super() }}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='upload.css') }}">
+    <!-- http://phppot.com/jquery/jquery-ajax-image-upload/ -->
+    <script>
+        $(document).ready(
+            function () {
+            $("#uploadForm").on('submit',function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ url_for('upload.index') }}",
+                    type: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    processData: false
+                }).done(
+                    function(data){
+                        $("#targetLayer").html(data);
+                    }
+                );
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div id="targetLayer">No Image</div>
+        <form class="form-group" id="uploadForm">   <!-- secret sauce is the uploadForm id -->
+            <div class="container-fluid">
+                <div class="container-fluid text-centered padded">
+                    <section>
+                        <code>
+                            <label>Upload form:</label>
+                            <input type="file" name="image">
+                        </code>
+                    </section>
+                </div>
+                <footer>
+                    <code>
+                        <button class="btn btn-secondary" type="submit">Submit</button>
+                        <button class="btn btn-secondary" type="reset">Cancel</button>
+                        <input type="hidden" value="{{ next or '' }}" name=next>    <!-- Important: This links to the next view -->
+                    </code>
+                </footer>
+            </div>
+        </form>
+
+        <script type='text/javascript'>
+
+            function main()
+            {
+                let inputFileToLoad = document.createElement("input");
+                inputFileToLoad.type = "file";
+                inputFileToLoad.id = "inputFileToLoad";
+                document.body.appendChild(inputFileToLoad);
+
+                let buttonLoadFile = document.createElement("button");
+                buttonLoadFile.onclick = loadImageFileAsURL;
+                buttonLoadFile.textContent = "Load Selected File";
+                document.body.appendChild(buttonLoadFile);
+            }
+
+            function loadImageFileAsURL()
+            {
+                let filesSelected = document.getElementById("inputFileToLoad").files;
+                if (filesSelected.length > 0)
+                {
+                    let fileToLoad = filesSelected[0];
+
+                    if (fileToLoad.type.match("image.*"))
+                    {
+                        let fileReader = new FileReader();
+                        fileReader.onload = function(fileLoadedEvent)
+                        {
+                            let imageLoaded = document.createElement("img");
+                            imageLoaded.src = fileLoadedEvent.target.result;
+                            document.body.appendChild(imageLoaded);
+                        };
+                        fileReader.readAsDataURL(fileToLoad);
+                    }
+                }
+            }
+
+            main();
+
+        </script>
+    </div>  <!-- Container fluid -->
+{% endblock %}

@@ -8,4 +8,9 @@
     {% else %}
         <p>Title: {{ image.filename|e|title }}</p>
     {% endif %}
+    <form class="input-group" method="POST" action="{{ url_for('upload.remove') }}">
+        <button class="btn btn-default" type="submit" name="remove" value="{{ image.filename }}">
+            Remove
+        </button>
+    </form>
 </figcaption>

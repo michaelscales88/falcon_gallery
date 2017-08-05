@@ -1,4 +1,4 @@
-from flask import render_template, current_app, Blueprint, request, g
+from flask import render_template, current_app, Blueprint, request, g, redirect
 from flask_login import login_required
 
 from app.core import redirect_back, get_redirect_target
@@ -31,3 +31,16 @@ def index():
         title='Upload',
         next=next
     )
+
+
+@bp.route('/remove', methods=['GET', 'POST'])
+def remove():
+    next = get_redirect_target()
+    print('hit remove')
+    file = request.form.get('remove')
+    print(file)
+    if file:
+        img = g.session.query(Image).filter(Image.file_name == file).first()
+        print(img)
+        # g.user.remove_image()
+    return redirect(next if next else 'gallery.index')
