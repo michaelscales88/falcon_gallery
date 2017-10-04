@@ -1,21 +1,24 @@
-from os import urandom, path, environ, makedirs
+import os
 
 
 class Config(object):
-    WTF_CSRF_ENABLED = True
-    SECRET_KEY = urandom(24)     # Generate a random session key
+    SECRET_KEY = os.urandom(24)  # Generate a random session key
 
-    BASEDIR = path.abspath(path.dirname(__file__))
-    PACKAGEDIR = path.dirname(BASEDIR)
-    PACKAGE_NAME = path.basename(PACKAGEDIR)
+    BASEDIR = os.path.abspath(os.path.dirname(__file__))
+    PACKAGEDIR = os.path.dirname(BASEDIR)
+    PACKAGE_NAME = os.path.basename(PACKAGEDIR)
 
-    # Profile images
-    AVATAR_DIR = path.join(PACKAGEDIR, 'instance', 'private')
-    if not path.isdir(AVATAR_DIR):
-        makedirs(AVATAR_DIR, exist_ok=True)
+    AVATAR_DIR = os.path.join(PACKAGEDIR, 'instance', 'private')
+    GALLERY_ROOT_DIR = os.path.join(PACKAGEDIR, 'instance', 'gallery')
+    UPLOAD_DIR = os.path.join(PACKAGEDIR, 'instance', 'uploads')
+    for sub_dir in (AVATAR_DIR, GALLERY_ROOT_DIR, UPLOAD_DIR):
+        if not os.path.isdir(sub_dir):
+            os.makedirs(sub_dir, exist_ok=True)
 
-    GALLERY_ROOT_DIR = path.join(PACKAGEDIR, 'instance', 'gallery')
-    UPLOAD_DIR = path.join(PACKAGEDIR, 'instance', 'uploads')
+    # indexing service
+    WHOOSH_BASE = os.path.join(PACKAGEDIR, 'instance', 'whoosh')
+    ENABLE_SEARCH = True
+
     ALLOWED_EXTENSIONS = (
         'jpg',
         'jpeg',
@@ -23,23 +26,18 @@ class Config(object):
         'gif',
     )
 
-    # Model database
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + path.join(BASEDIR, 'app.db')
-    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + ':memory:'
-    SQLALCHEMY_MIGRATE_REPO = path.join(BASEDIR, 'db_repository')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False  # Turn this off to reduce overhead
-
-    # indexing service
-    WHOOSH_BASE = path.join(BASEDIR, 'tmp/whoosh')
-    ENABLE_SEARCH = True
+    # Determine location of the application DB
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(PACKAGEDIR, 'database', 'app.db')
+    SQLALCHEMY_MIGRATE_REPO = os.path.join(PACKAGEDIR, 'database', 'db_repository')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False  # Keep this off to reduce overhead
 
     # email server
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 
     # administrator list
     ADMINS = ['your-gmail-username@gmail.com']
@@ -53,11 +51,3 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = True  # Turn this off to reduce overhead
-
-
-class TestingConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + ':memory:'
-    TESTING = True
-    DEBUG = True
-    WTF_CSRF_ENABLED = False
-    SQLALCHEMY_ECHO = False
