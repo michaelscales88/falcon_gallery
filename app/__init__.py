@@ -1,5 +1,4 @@
-from flask import Flask, Blueprint, url_for, redirect
-from flask_restful import Api
+from flask import Flask, Blueprint
 from flask_login import LoginManager
 
 
@@ -11,6 +10,7 @@ app = Flask(
     static_folder='static',
     static_url_path='/static'
 )
+
 # Load default user
 app.config.from_object(
     'app.default_config.DevelopmentConfig'
@@ -22,20 +22,6 @@ if app.config['ENABLE_SEARCH']:
     si = IndexService(config=app.config)
     # if os.path.isdir(app.config['WHOOSH_BASE']):
     #     shutil.rmtree(app.config['WHOOSH_BASE'])  # fresh index from whoosh prevents errors/slowdowns
-
-
-@app.route('/')
-def catch_all():
-    return redirect(
-        url_for('gallery.index')
-    )
-
-
-# Avoid favicon 404
-@app.route("/favicon.ico", methods=['GET'])
-def favicon():
-    return url_for('static', filename='favicon.ico')
-
 
 # Configure login page
 lm = LoginManager()

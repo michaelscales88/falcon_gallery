@@ -1,12 +1,9 @@
 from sqlalchemy import Column, Text, DateTime, Integer
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy_utils import generic_repr
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.database import Base
 
 
-@generic_repr
 class User(Base):
     __searchable__ = ['alias', 'about_me']
 
@@ -21,10 +18,6 @@ class User(Base):
     last_seen = Column(DateTime)
     images = relationship("Image", back_populates='artist')
     links = relationship("Link", back_populates='user')
-
-    @declared_attr
-    def __tablename__(cls):
-        return cls.__name__.lower()
 
     @property
     def password(self):
