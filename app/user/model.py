@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Text, DateTime, Integer
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Text, DateTime, Integer, ForeignKey, Boolean
 from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy.orm import relationship, backref
+
 from app.database import Base
 
 
@@ -18,6 +19,9 @@ class User(Base):
     last_seen = Column(DateTime)
     images = relationship("Image", back_populates='artist')
     links = relationship("Link", back_populates='user')
+
+    def __json__(self):
+        return list(self.__mapper__.columns.keys())
 
     @property
     def password(self):
@@ -87,4 +91,3 @@ class User(Base):
     @staticmethod
     def tracked(obj, collection):
         return obj in collection
-

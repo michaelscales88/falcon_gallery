@@ -1,11 +1,10 @@
 from flask import render_template, flash, redirect, url_for, request, g, Blueprint
 from flask_login import login_user, logout_user, login_required
 
-from app.models import User
 from app.core import get_redirect_target
-from app.forms import LoginForm
 from app.database import db_session
-
+from app.forms import LoginForm
+from app.gallery import User
 
 bp = Blueprint('login', __name__)
 

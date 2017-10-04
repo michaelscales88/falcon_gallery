@@ -1,8 +1,8 @@
 import simplejson
 from flask import Blueprint, render_template, request, current_app, g
 
-from app.models.file_system import ImageFile
-from app.models.image import Image
+from app.gallery import Image
+from app.util.file_system import ImageFile
 
 bp = Blueprint('gallery', __name__)
 

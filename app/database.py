@@ -14,10 +14,7 @@ Base.query = db_session.query_property()
 
 def init_db():
 
-    # Import models to include in the Base
-    from app.models import Image
-    from app.models import Link
-    from app.models import User
+    # Import gallery to include in the Base
 
     Base.metadata.create_all(bind=db_engine)
 

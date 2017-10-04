@@ -32,10 +32,13 @@ lm.login_view = 'login.login'
 # api = Api(app=app)
 # api_bp = Blueprint('api', __name__)
 
-# from . import view
-# from app.views import gallery, search, upload, contact, login, user
-#
-# app.register_blueprint(gallery.bp, url_prefix='/gallery')
+from . import view
+
+from app.user import user_view
+
+# Register with any rules
+app.register_blueprint(user_view.bp)
+
 # app.register_blueprint(search.bp, url_prefix='/search')
 # app.register_blueprint(upload.bp, url_prefix='/upload')
 # app.register_blueprint(contact.bp, url_prefix='/contact')

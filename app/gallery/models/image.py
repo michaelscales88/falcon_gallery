@@ -1,8 +1,9 @@
+from datetime import datetime
 from sqlalchemy import Column, Text, DateTime, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime
-from app.models.file_system import ImageFile
+
 from app.database import Base
+from app.util import ImageFile
 
 
 class Image(ImageFile, Base):

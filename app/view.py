@@ -1,12 +1,13 @@
 from datetime import datetime
+
 from flask import render_template, redirect, request, g, current_app, flash, url_for
 from flask_login import current_user
 from flask_restful.reqparse import RequestParser
 
 from app import app, lm, si
-from app.models import User, Image
 from app.core import get_redirect_target, transfer_uploads, send_or_404
 from app.database import db_session
+from app.gallery import User, Image
 
 
 @app.route('/')

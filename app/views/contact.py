@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, g
-from app.models.user import User
+from app.user import User
 
 
 bp = Blueprint('contact', __name__)
