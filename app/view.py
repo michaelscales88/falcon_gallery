@@ -4,16 +4,17 @@ from flask import render_template, redirect, request, g, current_app, flash, url
 from flask_login import current_user
 from flask_restful.reqparse import RequestParser
 
-from app import app, lm, si
+from app import app, si
 from app.core import get_redirect_target, transfer_uploads, send_or_404
 from app.database import db_session
-from app.gallery import User, Image
+from app.image.models import Image
+from app.user import User
 
 
 @app.route('/')
 def catch_all():
     return redirect(
-        url_for('gallery.index')
+        url_for('image.gallery')
     )
 
 
@@ -76,16 +77,6 @@ def showcase():
         title='Recent',
         next=next
     )
-
-
-@lm.user_loader
-def load_user(id):
-    return User.get(id=int(id))
-
-
-@app.route('/image/<filename>', methods=['GET'])
-def image(filename=''):
-    return send_or_404(current_app.config['GALLERY_ROOT_DIR'], filename)
 
 
 @app.route('/avatar/<filename>', methods=['GET'])

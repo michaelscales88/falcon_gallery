@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Text, DateTime, Integer, ForeignKey, Boolean
+from sqlalchemy import Column, Text, DateTime, Integer
 from werkzeug.security import check_password_hash, generate_password_hash
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 

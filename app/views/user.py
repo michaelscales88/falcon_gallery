@@ -2,7 +2,7 @@ from flask import render_template, current_app, Blueprint, request, g
 from flask_login import login_required
 
 from app.core import redirect_back, get_redirect_target
-from app.gallery import Link, Image
+from app.image import Link, Image
 
 bp = Blueprint('user', __name__)
 

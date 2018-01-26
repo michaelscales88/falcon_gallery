@@ -2,7 +2,7 @@ from flask import render_template, current_app, Blueprint, request, g, redirect
 from flask_login import login_required
 
 from app.core import redirect_back, get_redirect_target
-from app.gallery import Image
+from app.image import Image
 
 bp = Blueprint('upload', __name__)
 

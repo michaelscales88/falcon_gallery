@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request, g, Blueprint
 from flask_login import login_user, logout_user, login_required
 
-from .core import new_user, existing_user, add_client, remove_client, delete_client
+from .core import new_user, existing_user
 from app.core import get_redirect_target
 
 
@@ -22,32 +22,6 @@ def settings():
         return redirect(
             url_for('index')
         )
-
-    # Parser section
-    g.parser.add_argument('client_name', type=str, location='form')
-    g.parser.add_argument('client_id', type=str, location='form')
-    g.parser.add_argument('full_service', type=bool, location='form')
-    g.parser.add_argument('remove', type=str, location='form')
-    g.parser.add_argument('delete', type=str, location='form')
-
-    args = g.parser.parse_args()
-
-    if request.method == 'POST' and args['remove']:
-
-        user = remove_client(args['remove'])
-        # Save change to session
-        g.session.add(user)
-
-    elif request.method == 'POST' and args['delete']:
-
-        # Delete needs to be committed to be saved
-        delete_client(g.session, args['delete'])
-
-    elif request.method == 'POST':
-
-        user = add_client(args['client_name'], args['client_id'], args['full_service'])
-        # Save change to session
-        g.session.add(user)
 
     return render_template(
         'settings_template.html',

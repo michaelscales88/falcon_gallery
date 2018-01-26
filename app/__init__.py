@@ -11,10 +11,12 @@ app = Flask(
     static_url_path='/static'
 )
 
+
 # Load default user
 app.config.from_object(
     'app.default_config.DevelopmentConfig'
 )
+
 
 # Start the index service
 if app.config['ENABLE_SEARCH']:

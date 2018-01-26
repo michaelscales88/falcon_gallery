@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, url_for, redirect, request
 
-from app.gallery import User, Image
+from app.image import User, Image
 
 bp = Blueprint('search', __name__)
 
