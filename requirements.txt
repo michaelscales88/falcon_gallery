@@ -62,7 +62,7 @@ python3-openid==3.1.0
 pytz==2017.2
 pywinauto==0.6.2
 pyxley==0.1.0
-PyYAML==3.12
+PyYAML==5.4
 radar==0.3
 redpanda==0.3.1
 requests==2.18.1
